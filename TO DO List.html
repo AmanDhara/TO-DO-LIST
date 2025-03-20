@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Deadline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 50px;
+            color: white;
+            transition: background 0.1s ease-in-out;
+            background: rgb(0, 0, 0);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 380px;
+            margin: auto;
+            color: black;
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.03);
+        }
+        input, button {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        input {
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        li {
+            background: #f8f9fa;
+            padding: 14px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        li:hover {
+            transform: translateX(5px);
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+            opacity: 0.7;
+        }
+        .details {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 2px 4px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 10px;
+            transition: 0.3s;
+        }
+        .remove-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📌 To-Do List</h2>
+        <input type="text" id="taskInput" placeholder="Enter task...">
+        <input type="date" id="deadlineInput">
+        <button onclick="addTask()">➕ Add Task</button>
+        <h3>Your Tasks:</h3>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let deadlineInput = document.getElementById("deadlineInput");
+            let taskText = input.value.trim();
+            let deadline = deadlineInput.value;
+            if (taskText === "" || deadline === "") return;
+            
+            let now = new Date();
+            let dayAdded = now.toLocaleDateString(undefined, { weekday: 'long' });
+            
+            let li = document.createElement("li");
+            li.innerHTML = `
+                <strong>${taskText}</strong>
+                <span class="details">📅 Added on: ${dayAdded}</span>
+                <span class="details">⏳ Deadline: ${deadline}</span>
+                <button class="remove-btn" onclick="removeTask(this)">❌</button>
+            `;
+            li.addEventListener("click", function() {
+                this.classList.toggle("completed");
+            });
+            
+            document.getElementById("taskList").appendChild(li);
+            input.value = "";
+            deadlineInput.value = "";
+        }
+        
+        function removeTask(button) {
+            button.parentElement.remove();
+        }
+
+        function shiftRGBBackground() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            document.body.style.background = `rgb(${r}, ${g}, ${b})`;
+        }
+        
+        setInterval(shiftRGBBackground, 1000);
+    </script>
+</body>
+</html>
